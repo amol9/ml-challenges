@@ -12,20 +12,29 @@ from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 
 from transform import *
+from common_cols import *
 
 
-#dataset = pd.read_csv("./data/test_indessa.csv")
-dataset = pd.read_csv("./data/10k_test.csv")
+def pred(regressor):
+    #dataset = pd.read_csv("./data/test_indessa.csv")
+    dataset = pd.read_csv("./data/10k_test.csv")
 
-dataset = transform_dataset(dataset)
+    dataset = transform_dataset(dataset)
 
-x_test = dataset.values
+    common_cols = load_common_cols()
 
-regressor = None
+    dataset = dataset[common_cols]
 
-with open('model', 'rb') as f:
-    regressor = pickle.load(f)
+    x_test = dataset.values
 
-y_pred = regressor.predict(x_test)
+    regressor = None
 
-print(y_pred)
+    with open('model', 'rb') as f:
+        regressor = pickle.load(f)
+
+    y_pred = regressor.predict(x_test)
+
+    print(y_pred)
+
+if __name__ == "__main__":
+    pred(None)

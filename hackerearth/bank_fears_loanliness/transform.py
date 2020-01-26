@@ -6,7 +6,7 @@ import math
 
 
 def transform_dataset(dataset):
-    #dataset = dataset.fillna(method='ffill')
+    dataset = dataset.fillna(0)
 
 
     #scrub
@@ -21,6 +21,12 @@ def transform_dataset(dataset):
             dataset[col][i] = f(dataset[col][i])
 
     def transform_lwp(v):
+        if type(v) != str and math.isnan(v):   #??
+            return 0
+
+        if v == 0:
+            return 0
+
         m = re.search("\\d+", v)
         if m is not None:
             return m[0]
